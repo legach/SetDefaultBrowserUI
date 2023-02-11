@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using SetDefaultBrowserUI.Models;
 
 namespace SetDefaultBrowserUI.Services
 {
     public class SdbWrapper
     {
         private const string Path = "./Resources/SetDefaultBrowser.exe";
-
-        public SdbWrapper()
-        {
-            
-        }
 
         private bool IsAppExist()
         {
@@ -25,34 +23,75 @@ namespace SetDefaultBrowserUI.Services
         public async Task<ExecutionResult<bool>> SetBrowser(string identifier)
         {
             if (!IsAppExist())
-            {
                 return await Task.FromResult(ExecutionResult<bool>.Fail($"Cannot find {Path}"));
-            }
 
+            var output = await RunProcessAsync(identifier);
+
+            if (output.StartsWith("error:"))
+                return await Task.FromResult(ExecutionResult<bool>.Fail(output));
+
+            return await Task.FromResult(ExecutionResult<bool>.Success(true));
+        }
+
+        private async Task<string> RunProcessAsync(string parameters = "")
+        {
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = Path,
-                    Arguments = identifier,
+                    Arguments = parameters,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
                 }
             };
-
             process.Start();
             var output = await process.StandardOutput.ReadToEndAsync();
             await process.WaitForExitAsync();
+            return output ?? string.Empty;
+        }
 
+        public async Task<ExecutionResult<List<Browser>>> GetAvailableBrowser()
+        {
+            if (!IsAppExist())
+                return await Task.FromResult(ExecutionResult<List<Browser>>.Fail($"Cannot find {Path}"));
+
+            var output = await RunProcessAsync();
+            
             if (output.StartsWith("error:"))
+                return await Task.FromResult(ExecutionResult<List<Browser>>.Fail(output));
+
+            var browserList = new List<Browser>();
+
+            var regexp = new Regex(@"(?<Hive>(HKLM|HKCU))\s(?<Identifier>.*)[\r\n\s]+name:\s(?<Name>.*)[\n\r\s]+path:\s(?<Path>.*)", RegexOptions.IgnoreCase);
+            var matches = regexp.Matches(output);
+            if (matches.Count > 0)
             {
-                return await Task.FromResult(ExecutionResult<bool>.Fail(output));
+                for (int i = 0; i < matches.Count; i++)
+                {
+                    var match = matches[i];
+                    var hive = match.Groups["Hive"].Value.Replace("\r","");
+                    var identifier = match.Groups["Identifier"].Value.Replace("\r", ""); 
+                    var name = match.Groups["Name"].Value.Replace("\r", "");
+                    var path = match.Groups["Path"].Value.Replace("\r", "").Replace("\"",""); 
+
+                    var browser = new Browser()
+                    {
+                        Name = name,
+                        Path = path,
+                        Hive = hive,
+                        Identifier = identifier
+                    };
+                    browserList.Add(browser);
+                }
             }
             else
             {
-                return await Task.FromResult(ExecutionResult<bool>.Success(true));
+                return await Task.FromResult(ExecutionResult<List<Browser>>.Fail(output));
             }
+
+            return await Task.FromResult(ExecutionResult<List<Browser>>.Success(browserList));
         }
     }
 }

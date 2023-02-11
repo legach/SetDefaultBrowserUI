@@ -1,4 +1,4 @@
-﻿namespace SetDefaultBrowserUI.Services;
+﻿namespace SetDefaultBrowserUI.Models;
 
 public class ExecutionResult<T>
 {

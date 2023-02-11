@@ -31,9 +31,14 @@ namespace SetDefaultBrowserUI
             
         }
 
-        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private async void SetBrowser_OnClick(object sender, RoutedEventArgs e)
         {
             await _wrapper.SetBrowser("chrome");
+        }
+
+        private async void GetList_OnClick(object sender, RoutedEventArgs e)
+        {
+            var list = await _wrapper.GetAvailableBrowser();
         }
     }
 }
