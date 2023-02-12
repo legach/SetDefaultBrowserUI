@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 using SetDefaultBrowserUI.Models;
 using SetDefaultBrowserUI.Services;
 using SetDefaultBrowserUI.Utils;
@@ -19,8 +17,10 @@ namespace SetDefaultBrowserUI.ViewModels
         private readonly SdbWrapper _wrapper;
         private Browser? _selectedBrowser;
         private bool _isloaderVisible = false;
+        private ObservableCollection<Browser> _browsers;
         private RelayCommand _setBrowserCommand;
         private RelayCommand _refreshListCommand;
+        private SynchronizationContext _syncContext = SynchronizationContext.Current;
 
         public MainViewModel(SdbWrapper wrapper)
         {
@@ -41,7 +41,17 @@ namespace SetDefaultBrowserUI.ViewModels
             set { _isloaderVisible = value; OnPropertyChanged(nameof(IsLoaderVisible)); }
         }
 
-        public ObservableCollection<Browser> Browsers { get; set; }
+        public ObservableCollection<Browser> Browsers
+        {
+            get => _browsers;
+            set
+            {
+                if (_browsers == value)
+                    return;
+                _browsers = value;
+                OnPropertyChanged(nameof(Browser));
+            }
+        }
 
         public RelayCommand SetBrowserCommand
         {
@@ -58,7 +68,7 @@ namespace SetDefaultBrowserUI.ViewModels
             get
             {
                 return _refreshListCommand ??= new RelayCommand(
-                    async o => await RunWithWaiting(FillAvailableBrowsers)
+                     o => RunWithWaiting(FillAvailableBrowsers)
                 );
             }
         }
@@ -82,10 +92,7 @@ namespace SetDefaultBrowserUI.ViewModels
                 return;
             }
 
-            foreach (var browser in result.Result)
-            {
-                Browsers.Add(browser);
-            }
+            Browsers = new ObservableCollection<Browser>(result.Result);
         }
 
         private void ShowError(string resultError)
