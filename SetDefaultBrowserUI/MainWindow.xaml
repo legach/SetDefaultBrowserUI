@@ -13,6 +13,7 @@
         mc:Ignorable="d"
         ShowInTaskbar="{Binding ShowInTaskbar}"
         WindowState="{Binding WindowState}"
+        ResizeMode="CanMinimize"
         Title="MainWindow" Height="350" Width="300">
     <Window.Resources>
         <utils:ImageFromPathConverter x:Key="ImageFromPathConverter"/>
@@ -31,14 +32,6 @@
                     <MenuItem Header="Close" Command="{Binding NotifyIconExitCommand}"/>
                 </ContextMenu>
             </utils:NotifyIconWrapper.ContextMenu>
-            <bh:Interaction.Triggers>
-                <bh:EventTrigger EventName="OpenSelected">
-                    <bh:InvokeCommandAction Command="{Binding NotifyIconOpenCommand}"/>
-                </bh:EventTrigger>
-                <bh:EventTrigger EventName="ExitSelected">
-                    <bh:InvokeCommandAction Command="{Binding NotifyIconExitCommand}"/>
-                </bh:EventTrigger>
-            </bh:Interaction.Triggers>
         </utils:NotifyIconWrapper>
         <ListBox Grid.Row="0"
                  ItemsSource="{Binding Browsers}" 

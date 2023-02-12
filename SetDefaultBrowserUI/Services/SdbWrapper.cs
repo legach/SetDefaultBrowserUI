@@ -25,7 +25,11 @@ namespace SetDefaultBrowserUI.Services
             if (!IsAppExist())
                 return await Task.FromResult(ExecutionResult<bool>.Fail($"Cannot find {Path}"));
 
-            var output = await RunProcessAsync($"{browser.Hive.ToLower()} {browser.Identifier}");
+            
+            var browserName = browser.Identifier.Contains(" ") ? $"\"{browser.Identifier}\"" : browser.Identifier;
+            var parameter = $"{browser.Hive} {browserName}";
+
+            var output = await RunProcessAsync(parameter);
 
             if (output.StartsWith("error:"))
                 return await Task.FromResult(ExecutionResult<bool>.Fail(output));

@@ -45,7 +45,11 @@ namespace SetDefaultBrowserUI.ViewModels
         public Browser? SelectedBrowser
         {
             get => _selectedBrowser;
-            set => SetProperty(ref _selectedBrowser, value);
+            set
+            {
+                SetProperty(ref _selectedBrowser, value);
+                ((RelayCommand)SetBrowserCommand).NotifyCanExecuteChanged();
+            }
         }
 
         public bool IsLoaderVisible
@@ -97,7 +101,10 @@ namespace SetDefaultBrowserUI.ViewModels
             {
                 return _setBrowserCommand ??= new RelayCommand(
                     async () => await RunWithWaiting(SetBrowsersAsDefault),
-                    () => SelectedBrowser != null);
+                    () =>
+                    {
+                        return SelectedBrowser != null;
+                    });
             }
         }
 
@@ -161,7 +168,11 @@ namespace SetDefaultBrowserUI.ViewModels
         }
         private void Loaded()
         {
+#if DEBUG
+            WindowState = WindowState.Normal;
+#else
             WindowState = WindowState.Minimized;
+#endif
         }
 
         private void Closing(CancelEventArgs? e)
