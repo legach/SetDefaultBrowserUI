@@ -51,6 +51,14 @@
                     Command="{Binding SetBrowserCommand}"
                     Content="Set selected" ToolTip="Set selected browser as default"/>
         </StackPanel>
-        
+        <Grid Grid.Row="0"
+              Visibility="{c:Binding IsLoaderVisible}" 
+              VerticalAlignment="Stretch">
+                <Grid Background="White" Opacity="0.7"/>
+                <TextBlock FontSize="18" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           Text="Please wait..."/>
+        </Grid>
     </Grid>
 </Window>
