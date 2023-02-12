@@ -20,12 +20,12 @@ namespace SetDefaultBrowserUI.Services
             return File.Exists(Path);
         }
 
-        public async Task<ExecutionResult<bool>> SetBrowser(string identifier)
+        public async Task<ExecutionResult<bool>> SetBrowser(Browser browser)
         {
             if (!IsAppExist())
                 return await Task.FromResult(ExecutionResult<bool>.Fail($"Cannot find {Path}"));
 
-            var output = await RunProcessAsync(identifier);
+            var output = await RunProcessAsync($"{browser.Hive.ToLower()} {browser.Identifier}");
 
             if (output.StartsWith("error:"))
                 return await Task.FromResult(ExecutionResult<bool>.Fail(output));
@@ -52,7 +52,7 @@ namespace SetDefaultBrowserUI.Services
             return output ?? string.Empty;
         }
 
-        public async Task<ExecutionResult<List<Browser>>> GetAvailableBrowser()
+        public async Task<ExecutionResult<List<Browser>>> GetAvailableBrowsers()
         {
             if (!IsAppExist())
                 return await Task.FromResult(ExecutionResult<List<Browser>>.Fail($"Cannot find {Path}"));

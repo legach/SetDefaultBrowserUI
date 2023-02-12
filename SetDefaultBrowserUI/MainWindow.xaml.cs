@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SetDefaultBrowserUI.Services;
+using SetDefaultBrowserUI.ViewModels;
 
 namespace SetDefaultBrowserUI
 {
@@ -21,24 +22,12 @@ namespace SetDefaultBrowserUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly SdbWrapper _wrapper;
 
         public MainWindow()
         {
             InitializeComponent();
-            _wrapper = new SdbWrapper();
-
-            
-        }
-
-        private async void SetBrowser_OnClick(object sender, RoutedEventArgs e)
-        {
-            await _wrapper.SetBrowser("chrome");
-        }
-
-        private async void GetList_OnClick(object sender, RoutedEventArgs e)
-        {
-            var list = await _wrapper.GetAvailableBrowser();
+            var wrapper = new SdbWrapper();
+            DataContext = new MainViewModel(wrapper);
         }
     }
 }

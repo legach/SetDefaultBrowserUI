@@ -4,14 +4,49 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SetDefaultBrowserUI"
+        xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="300">
-    <StackPanel>
-        <Button Width="70" Height="25" Margin="10" Click="SetBrowser_OnClick">
-            <TextBlock Text="Set chrome"></TextBlock>
-        </Button>
-        <Button Width="70" Height="25" Click="GetList_OnClick">
-            <TextBlock Text="Get list"></TextBlock>
-        </Button>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <ListBox Grid.Row="0"
+                 ItemsSource="{Binding Browsers}" 
+                 SelectionMode="Single" 
+                 SelectedItem="{Binding SelectedBrowser}"
+                 IsEnabled="{c:Binding !IsLoaderVisible}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="50">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" >
+                            <Image Margin="5" Source="{Binding Icon}"/>
+                        </Grid>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock FontSize="15" Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding Path}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Hive}"/>
+                                <TextBlock Text="{Binding Identifier}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="70" Height="25" Margin="10" 
+                    Command="{Binding RefreshListCommand}"
+                    Content="Refresh" ToolTip="Refresh browser list"/>
+            <Button Width="70" Height="25" Margin="10" 
+                    Command="{Binding SetBrowserCommand}"
+                    Content="Set selected" ToolTip="Set selected browser as default"/>
+        </StackPanel>
+        
+    </Grid>
 </Window>
