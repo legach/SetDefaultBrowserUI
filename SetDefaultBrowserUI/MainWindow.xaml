@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:SetDefaultBrowserUI"
         xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
         xmlns:utils="clr-namespace:SetDefaultBrowserUI.Utils"
+        xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
+        ShowInTaskbar="{Binding ShowInTaskbar}"
+        WindowState="{Binding WindowState}"
         Title="MainWindow" Height="350" Width="300">
     <Window.Resources>
         <utils:ImageFromPathConverter x:Key="ImageFromPathConverter"/>
@@ -16,6 +19,16 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
+        <utils:NotifyIconWrapper NotifyRequest="{Binding NotifyRequest}">
+            <bh:Interaction.Triggers>
+                <bh:EventTrigger EventName="OpenSelected">
+                    <bh:InvokeCommandAction Command="{Binding NotifyIconOpenCommand}"/>
+                </bh:EventTrigger>
+                <bh:EventTrigger EventName="ExitSelected">
+                    <bh:InvokeCommandAction Command="{Binding NotifyIconExitCommand}"/>
+                </bh:EventTrigger>
+            </bh:Interaction.Triggers>
+        </utils:NotifyIconWrapper>
         <ListBox Grid.Row="0"
                  ItemsSource="{Binding Browsers}" 
                  SelectionMode="Single" 
@@ -61,4 +74,12 @@
                            Text="Please wait..."/>
         </Grid>
     </Grid>
+    <bh:Interaction.Triggers>
+        <bh:EventTrigger EventName="Loaded">
+            <bh:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </bh:EventTrigger>
+        <bh:EventTrigger EventName="Closing">
+            <bh:InvokeCommandAction Command="{Binding ClosingCommand}" PassEventArgsToCommand="True"/>
+        </bh:EventTrigger>
+    </bh:Interaction.Triggers>
 </Window>

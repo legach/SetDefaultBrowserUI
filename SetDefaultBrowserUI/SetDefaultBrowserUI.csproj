@@ -5,6 +5,8 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+	<UseWindowsForms>true</UseWindowsForms>
+	<ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\BrowserIcons\chrome_128x128.png" />
     <Resource Include="Resources\BrowserIcons\default_128x128.png" />
     <Resource Include="Resources\BrowserIcons\edge_128x128.png" />
@@ -26,6 +32,8 @@
 
   <ItemGroup>
     <PackageReference Include="CalcBinding" Version="2.5.2" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
 
   <ItemGroup>
