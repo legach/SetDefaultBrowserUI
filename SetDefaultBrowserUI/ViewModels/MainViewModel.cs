@@ -131,7 +131,10 @@ namespace SetDefaultBrowserUI.ViewModels
         {
             get
             {
-                return _notifyIconOpenCommand ??= new RelayCommand(() => { WindowState = WindowState.Normal; });
+                return _notifyIconOpenCommand ??= new RelayCommand(() =>
+                {
+                    WindowState = WindowState.Normal;
+                });
             }
         }
 
@@ -139,7 +142,10 @@ namespace SetDefaultBrowserUI.ViewModels
         {
             get
             {
-                return _notifyIconExitCommand ??= new RelayCommand(() => { Application.Current.Shutdown(); });
+                return _notifyIconExitCommand ??= new RelayCommand(() =>
+                {
+                    Application.Current.Shutdown();
+                });
             }
         }
         #endregion

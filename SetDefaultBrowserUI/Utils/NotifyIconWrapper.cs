@@ -17,7 +17,8 @@ namespace SetDefaultBrowserUI.Utils
     {
 
         public static readonly DependencyProperty TextProperty =
-                DependencyProperty.Register("Text", typeof(string), typeof(NotifyIconWrapper), new PropertyMetadata(
+                DependencyProperty.Register("Text", typeof(string), typeof(NotifyIconWrapper), 
+                    new PropertyMetadata(
                     (d, e) =>
                     {
                         var notifyIcon = ((NotifyIconWrapper)d)._notifyIcon;
@@ -35,6 +36,17 @@ namespace SetDefaultBrowserUI.Utils
                         ((NotifyIconWrapper)d)._notifyIcon?.ShowBalloonTip(r.Duration, r.Title, r.Text, r.Icon);
                     }));
 
+        public static readonly DependencyProperty ContextMenuStripProperty =
+            DependencyProperty.Register("ContextMenuStrip", typeof(ContextMenuStrip), typeof(NotifyIconWrapper), 
+                new PropertyMetadata(
+                (d, e) =>
+                {
+                    var notifyIcon = ((NotifyIconWrapper)d)._notifyIcon;
+                    if (notifyIcon == null)
+                        return;
+                    notifyIcon.ContextMenuStrip = (ContextMenuStrip)e.NewValue;
+                }));
+
         private static readonly RoutedEvent OpenSelectedEvent = EventManager.RegisterRoutedEvent("OpenSelected",
             RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(NotifyIconWrapper));
 
@@ -42,6 +54,7 @@ namespace SetDefaultBrowserUI.Utils
             RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(NotifyIconWrapper));
 
         private readonly NotifyIcon? _notifyIcon;
+
 
         public NotifyIconWrapper()
         {
@@ -51,10 +64,24 @@ namespace SetDefaultBrowserUI.Utils
             {
                 Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location),
                 Visible = true,
-                ContextMenuStrip = CreateContextMenu()
             };
             _notifyIcon.DoubleClick += OpenItemOnClick;
+            _notifyIcon.MouseClick += MouseClickHandler;
             Application.Current.Exit += (obj, args) => { _notifyIcon.Dispose(); };
+        }
+
+        private void MouseClickHandler(object? sender, MouseEventArgs e)
+        {
+            if (ContextMenu == null)
+            {
+                return;
+            }
+            ContextMenu.IsOpen = false;
+
+            if (e.Button == MouseButtons.Right)
+            {
+                ContextMenu.IsOpen = true;
+            }
         }
 
         public string Text
@@ -67,6 +94,12 @@ namespace SetDefaultBrowserUI.Utils
         {
             get => (NotifyRequestRecord)GetValue(NotifyRequestProperty);
             set => SetValue(NotifyRequestProperty, value);
+        }
+
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => (ContextMenuStrip)GetValue(ContextMenuStripProperty);
+            set => SetValue(ContextMenuStripProperty, value);
         }
 
         public void Dispose()

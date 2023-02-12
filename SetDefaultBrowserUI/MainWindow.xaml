@@ -7,6 +7,9 @@
         xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
         xmlns:utils="clr-namespace:SetDefaultBrowserUI.Utils"
         xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" 
+        xmlns:viewmodels="clr-namespace:SetDefaultBrowserUI.ViewModels" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         ShowInTaskbar="{Binding ShowInTaskbar}"
         WindowState="{Binding WindowState}"
@@ -20,6 +23,14 @@
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
         <utils:NotifyIconWrapper NotifyRequest="{Binding NotifyRequest}">
+            <utils:NotifyIconWrapper.ContextMenu>
+                <ContextMenu Opened="ContextMenu_OnOpened">
+                    <MenuItem Header="Open" 
+                              Command="{Binding NotifyIconOpenCommand}"/>
+                    <Separator />
+                    <MenuItem Header="Close" Command="{Binding NotifyIconExitCommand}"/>
+                </ContextMenu>
+            </utils:NotifyIconWrapper.ContextMenu>
             <bh:Interaction.Triggers>
                 <bh:EventTrigger EventName="OpenSelected">
                     <bh:InvokeCommandAction Command="{Binding NotifyIconOpenCommand}"/>
