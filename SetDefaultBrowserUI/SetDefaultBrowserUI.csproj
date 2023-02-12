@@ -8,11 +8,30 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\BrowserIcons\" />
+    <None Remove="Resources\BrowserIcons\chrome_128x128.png" />
+    <None Remove="Resources\BrowserIcons\default_128x128.png" />
+    <None Remove="Resources\BrowserIcons\edge_128x128.png" />
+    <None Remove="Resources\BrowserIcons\firefox_128x128.png" />
+    <None Remove="Resources\BrowserIcons\opera_128x128.png" />
+    <None Remove="Resources\BrowserIcons\tor_128x128.png" />
+    <None Remove="Resources\BrowserIcons\yandex_128x128.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\BrowserIcons\chrome_128x128.png" />
+    <Resource Include="Resources\BrowserIcons\default_128x128.png" />
+    <Resource Include="Resources\BrowserIcons\edge_128x128.png" />
+    <Resource Include="Resources\BrowserIcons\firefox_128x128.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CalcBinding" Version="2.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\BrowserIcons\opera_128x128.png" />
+    <Resource Include="Resources\BrowserIcons\tor_128x128.png" />
+    <Resource Include="Resources\BrowserIcons\yandex_128x128.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -76,13 +76,7 @@ namespace SetDefaultBrowserUI.Services
                     var name = match.Groups["Name"].Value.Replace("\r", "");
                     var path = match.Groups["Path"].Value.Replace("\r", "").Replace("\"",""); 
 
-                    var browser = new Browser()
-                    {
-                        Name = name,
-                        Path = path,
-                        Hive = hive,
-                        Identifier = identifier
-                    };
+                    var browser = new Browser(name, hive, identifier, path);
                     browserList.Add(browser);
                 }
             }

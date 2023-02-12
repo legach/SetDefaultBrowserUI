@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SetDefaultBrowserUI"
         xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+        xmlns:utils="clr-namespace:SetDefaultBrowserUI.Utils"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="300">
+    <Window.Resources>
+        <utils:ImageFromPathConverter x:Key="ImageFromPathConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -25,7 +29,7 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0" >
-                            <Image Margin="5" Source="{Binding Icon}"/>
+                            <Image Margin="5" Source="{Binding IconPath, Converter={StaticResource ImageFromPathConverter}}"/>
                         </Grid>
                         <StackPanel Grid.Column="1">
                             <TextBlock FontSize="15" Text="{Binding Name}"/>
