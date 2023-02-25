@@ -21,7 +21,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B023DA29E224402ABD1DE7663B1A8CAF"
+        "MsmKey" = "8:_C1CA953870774DCAAE14B114450D382F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -73,6 +73,11 @@
                     "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 и x64)"
                     "ProductCode" = "8:.NETFramework,Version=v4.7.2"
                     }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.CoreRuntime.6.0.x64"
+                    {
+                    "Name" = "8:Среда выполнения .NET 6.0.14 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.CoreRuntime.6.0.x64"
+                    }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.CoreRuntime.6.0.x86"
                     {
                     "Name" = "8:Среда выполнения .NET 6.0.14 (x86)"
@@ -111,7 +116,7 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B023DA29E224402ABD1DE7663B1A8CAF"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C1CA953870774DCAAE14B114450D382F"
             {
             "SourcePath" = "8:..\\SetDefaultBrowserUI\\Resources\\icon.ico"
             "TargetName" = "8:icon.ico"
@@ -187,15 +192,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SetDefaultBrowserUI"
-        "ProductCode" = "8:{343BF2D6-4090-4A3B-A226-880FCCAD3BD6}"
-        "PackageCode" = "8:{918581F6-E9E4-4B4E-AB57-4D8A4B1488DE}"
+        "ProductCode" = "8:{2AA768A6-2693-4A69-90A1-35EE7C85CE82}"
+        "PackageCode" = "8:{1FBF8170-FA53-478D-A845-A9F5FCE0F298}"
         "UpgradeCode" = "8:{BA3AD253-9E05-4EEB-8B14-3AE7F3F04A18}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.1"
         "Manufacturer" = "8:legach"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/legach"
@@ -205,11 +210,11 @@
         "Keywords" = "8:default browser setdefaultbrowser"
         "ARPCOMMENTS" = "8:UI for select default browser tool"
         "ARPURLINFOABOUT" = "8:https://github.com/legach"
-        "ARPPRODUCTICON" = "8:_B023DA29E224402ABD1DE7663B1A8CAF"
+        "ARPPRODUCTICON" = "8:_C1CA953870774DCAAE14B114450D382F"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
-        "TargetPlatform" = "3:0"
+        "TargetPlatform" = "3:1"
         "PreBuildEvent" = "8:"
         "PostBuildEvent" = "8:"
         "RunPostBuildEvent" = "3:0"
@@ -319,7 +324,7 @@
             "Target" = "8:_674C6606A90043C98337451EF76412C1"
             "Folder" = "8:_8306EEFE1F8141DE878D126F445C5B95"
             "WorkingFolder" = "8:_37BD0DE80A164C9E8CCDD00E009E7663"
-            "Icon" = "8:"
+            "Icon" = "8:_C1CA953870774DCAAE14B114450D382F"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BE27EFF6CE9C4C629C7D670027EA34F8"
@@ -333,7 +338,7 @@
             "Target" = "8:_674C6606A90043C98337451EF76412C1"
             "Folder" = "8:_4C333C91FBE5484396AABAA00C9D64EA"
             "WorkingFolder" = "8:_37BD0DE80A164C9E8CCDD00E009E7663"
-            "Icon" = "8:"
+            "Icon" = "8:_C1CA953870774DCAAE14B114450D382F"
             "Feature" = "8:"
             }
         }
