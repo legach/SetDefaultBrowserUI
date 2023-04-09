@@ -14,7 +14,8 @@
         ShowInTaskbar="{Binding ShowInTaskbar}"
         WindowState="{Binding WindowState}"
         ResizeMode="CanMinimize"
-        Title="MainWindow" Height="350" Width="300">
+        WindowStartupLocation="CenterScreen"
+        Title="Set Browser" Height="350" Width="300">
     <Window.Resources>
         <utils:ImageFromPathConverter x:Key="ImageFromPathConverter"/>
     </Window.Resources>
@@ -23,6 +24,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
+
         <utils:NotifyIconWrapper NotifyRequest="{Binding NotifyRequest}">
             <utils:NotifyIconWrapper.ContextMenu>
                 <ContextMenu Opened="ContextMenu_OnOpened">
@@ -33,14 +35,25 @@
                 </ContextMenu>
             </utils:NotifyIconWrapper.ContextMenu>
         </utils:NotifyIconWrapper>
+
         <ListBox Grid.Row="0"
                  ItemsSource="{Binding Browsers}" 
                  SelectionMode="Single" 
                  SelectedItem="{Binding SelectedBrowser}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                  IsEnabled="{c:Binding !IsLoaderVisible}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="50">
+                    <Grid Height="52">
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Copy path" 
+                                          Command="{Binding CopyPathCommand}" />
+                                <MenuItem Header="Copy id" 
+                                          Command="{Binding CopyIdentifierCommand}" />
+                                <MenuItem Header="Add to favorite" IsEnabled="False"/>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
@@ -49,11 +62,15 @@
                             <Image Margin="5" Source="{Binding IconPath, Converter={StaticResource ImageFromPathConverter}}"/>
                         </Grid>
                         <StackPanel Grid.Column="1">
-                            <TextBlock FontSize="15" Text="{Binding Name}"/>
-                            <TextBlock Text="{Binding Path}"/>
+                            <TextBlock FontSize="15" Text="{Binding Model.Name}"/>
+                            <TextBlock Text="{Binding Model.Path}" IsHyphenationEnabled="True"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Hive}"/>
-                                <TextBlock Text="{Binding Identifier}"/>
+                                <TextBlock>
+                                    <Run Text="{Binding Model.Hive, Mode=OneWay}"></Run>
+                                    <Run Text="  |  "/>
+                                    <Run Text="{Binding Model.Identifier, Mode=OneWay}"></Run>
+                                </TextBlock>
+                                <TextBlock />
                             </StackPanel>
                         </StackPanel>
                     </Grid>

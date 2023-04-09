@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SetDefaultBrowserUI.Models;
@@ -19,9 +21,9 @@ namespace SetDefaultBrowserUI.ViewModels
     public class MainViewModel : ObservableRecipient
     {
         private readonly SdbWrapper _wrapper;
-        private Browser? _selectedBrowser;
+        private BrowserViewModel? _selectedBrowser;
         private bool _isloaderVisible = false;
-        private ObservableCollection<Browser> _browsers;
+        private ObservableCollection<BrowserViewModel> _browsers;
         private ICommand _setBrowserCommand;
         private ICommand _refreshListCommand;
         private ICommand _loadedCommand;
@@ -36,13 +38,13 @@ namespace SetDefaultBrowserUI.ViewModels
         public MainViewModel(SdbWrapper wrapper)
         {
             _wrapper = wrapper;
-            Browsers = new ObservableCollection<Browser>();
+            Browsers = new ObservableCollection<BrowserViewModel>();
             RunWithWaiting(FillAvailableBrowsers);
         }
 
         #region Properties
   
-        public Browser? SelectedBrowser
+        public BrowserViewModel? SelectedBrowser
         {
             get => _selectedBrowser;
             set
@@ -58,7 +60,7 @@ namespace SetDefaultBrowserUI.ViewModels
             set => SetProperty(ref _isloaderVisible, value);
         }
 
-        public ObservableCollection<Browser> Browsers
+        public ObservableCollection<BrowserViewModel> Browsers
         {
             get => _browsers;
             set
@@ -113,7 +115,7 @@ namespace SetDefaultBrowserUI.ViewModels
             get
             {
                 return _refreshListCommand ??= new RelayCommand(
-                    () => RunWithWaiting(FillAvailableBrowsers)
+                    async () => await RunWithWaiting(FillAvailableBrowsers)
                 );
             }
         }
@@ -168,11 +170,7 @@ namespace SetDefaultBrowserUI.ViewModels
         }
         private void Loaded()
         {
-#if DEBUG
             WindowState = WindowState.Normal;
-#else
-            WindowState = WindowState.Minimized;
-#endif
         }
 
         private void Closing(CancelEventArgs? e)
@@ -185,7 +183,7 @@ namespace SetDefaultBrowserUI.ViewModels
 
         private async void SetBrowsersAsDefault()
         {
-            var result = await _wrapper.SetBrowser(SelectedBrowser);
+            var result = await _wrapper.SetBrowser(SelectedBrowser.Model);
             if (!result.IsSuccess)
             {
                 ShowError(result.Error);
@@ -202,7 +200,8 @@ namespace SetDefaultBrowserUI.ViewModels
                 return;
             }
 
-            Browsers = new ObservableCollection<Browser>(result.Result);
+            var browserViewModels = result.Result.Select(b=>new BrowserViewModel(){Model = b}).ToList();
+            Browsers = new ObservableCollection<BrowserViewModel>(browserViewModels);
         }
 
         private void ShowError(string resultError)
