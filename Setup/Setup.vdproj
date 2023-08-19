@@ -50,6 +50,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -200,15 +208,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SetDefaultBrowserUI"
-        "ProductCode" = "8:{07FB6A85-5DAC-4E6D-A5AE-BC1D8DAD579E}"
-        "PackageCode" = "8:{14EAE0A1-D780-4F2F-96EB-68F1B14F06B1}"
+        "ProductCode" = "8:{1041AEE2-B895-493F-998D-0E3F9FF3D002}"
+        "PackageCode" = "8:{3C6CA0DC-DFE5-4E9C-84AB-DEA890EC2F7A}"
         "UpgradeCode" = "8:{BA3AD253-9E05-4EEB-8B14-3AE7F3F04A18}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.1.0"
+        "ProductVersion" = "8:1.2.0"
         "Manufacturer" = "8:legach"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/legach"
