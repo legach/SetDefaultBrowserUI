@@ -20,7 +20,7 @@ namespace SetDefaultBrowserUI
 
         private void ContextMenu_OnOpened(object sender, RoutedEventArgs e)
         {
-            if (sender is ContextMenu cm && cm.DataContext==null)
+            if (sender is ContextMenu { DataContext: null } cm)
             {
                 cm.DataContext = DataContext;
             }

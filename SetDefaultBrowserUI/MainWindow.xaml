@@ -13,9 +13,12 @@
         mc:Ignorable="d"
         ShowInTaskbar="{Binding ShowInTaskbar}"
         WindowState="{Binding WindowState}"
-        ResizeMode="CanMinimize"
+        ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
-        Title="Set Browser" Height="350" Width="300">
+        Title="Set Browser" 
+        Height="350" 
+        MinHeight="150"
+        MinWidth="300">
     <Window.Resources>
         <utils:ImageFromPathConverter x:Key="ImageFromPathConverter"/>
     </Window.Resources>
@@ -77,10 +80,13 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="70" Height="25" Margin="10" 
                     Command="{Binding RefreshListCommand}"
                     Content="Refresh" ToolTip="Refresh browser list"/>
+            <Button Width="70" Height="25" Margin="10" 
+                    Command="{Binding RunBrowserCommand}"
+                    Content="Run app" ToolTip="Run selected browser"/>
             <Button Width="70" Height="25" Margin="10" 
                     Command="{Binding SetBrowserCommand}"
                     Content="Set selected" ToolTip="Set selected browser as default"/>

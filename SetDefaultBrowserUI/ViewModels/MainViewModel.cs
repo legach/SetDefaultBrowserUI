@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -30,6 +31,7 @@ namespace SetDefaultBrowserUI.ViewModels
         private ICommand _closingCommand;
         private ICommand _notifyIconOpenCommand;
         private ICommand _notifyIconExitCommand;
+        private ICommand _runBrowserCommand;
         private SynchronizationContext _syncContext = SynchronizationContext.Current;
         private bool _showInTaskbar;
         private WindowState _windowState ;
@@ -51,6 +53,7 @@ namespace SetDefaultBrowserUI.ViewModels
             {
                 SetProperty(ref _selectedBrowser, value);
                 ((RelayCommand)SetBrowserCommand).NotifyCanExecuteChanged();
+                ((RelayCommand)RunBrowserCommand).NotifyCanExecuteChanged();
             }
         }
 
@@ -103,10 +106,7 @@ namespace SetDefaultBrowserUI.ViewModels
             {
                 return _setBrowserCommand ??= new RelayCommand(
                     async () => await RunWithWaiting(SetBrowsersAsDefault),
-                    () =>
-                    {
-                        return SelectedBrowser != null;
-                    });
+                    () => SelectedBrowser != null);
             }
         }
 
@@ -157,6 +157,16 @@ namespace SetDefaultBrowserUI.ViewModels
                 });
             }
         }
+
+        public ICommand RunBrowserCommand
+        {
+            get
+            {
+                return _runBrowserCommand ??= new RelayCommand(
+                    async () => await RunWithWaiting(RunBrowser),
+                    () => SelectedBrowser != null);
+            }
+        }
         #endregion
 
         private void Notify(string message)
@@ -189,6 +199,22 @@ namespace SetDefaultBrowserUI.ViewModels
                 ShowError(result.Error);
                 return;
             }
+        }
+
+        private void RunBrowser()
+        {
+            if (SelectedBrowser == null)
+                return;
+            
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = SelectedBrowser.Model.Path,
+                    UseShellExecute = true,
+                }
+            };
+            process.Start();
         }
 
         private async void FillAvailableBrowsers()
